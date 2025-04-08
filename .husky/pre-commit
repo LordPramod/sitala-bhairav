@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running pre-commit checks..."
+
+# Run TypeScript type checking
+echo "📝 Checking TypeScript types..."
+yarn tsc --noEmit
+
+# Run ESLint
+echo "🔎 Running ESLint..."
+yarn lint
+
+# Run tests if they exist
+if [ -f "package.json" ] && grep -q "\"test\":" "package.json"; then
+  echo "🧪 Running tests..."
+  yarn test
+fi
